@@ -19,8 +19,10 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
-     "lib/snap.rb",
+     "examples/named_route_example.rb",
      "lib/sinatra/named_path_support.rb",
+     "lib/snap.rb",
+     "snap.gemspec",
      "spec/snap_spec.rb",
      "spec/spec_helper.rb"
   ]

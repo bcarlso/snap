@@ -1,0 +1,7 @@
+= snap
+
+Description goes here.
+
+== Copyright
+
+Copyright (c) 2009 bcarlso. See LICENSE for details.

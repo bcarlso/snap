@@ -1,7 +1,7 @@
-= snap
+= Sinatra NAmed Paths (snap)
 
-Description goes here.
+Enables named paths in Sinatra apps. For documentation, see the wiki.
 
 == Copyright
 
-Copyright (c) 2009 bcarlso. See LICENSE for details.
+Copyright (c) 2009 Brandon Carlson (bcarlso). See LICENSE for details.

@@ -2,8 +2,18 @@ require 'sinatra/base'
 
 module Sinatra
   module PathDefinitionSupport
+    def self.registered(app)
+      app.set :named_paths, {}
+    end
+
     def path name, pattern
+      verify_type_of(name)
       named_paths[name] = pattern
+    end
+    
+    def paths(paths)
+      paths.keys.each { | k | verify_type_of(k) }
+      named_paths.merge!(paths)
     end
 
     def route(verb, path, options={}, &block)
@@ -11,9 +21,11 @@ module Sinatra
       super verb, path, options, &block
     end
     
-    def self.registered(app)
-      app.set :named_paths, {}
+    def verify_type_of(name)
+      raise ArgumentError.new('Path name must be a symbol') unless name.kind_of?(Symbol) 
     end
+
+    private :verify_type_of
   end 
 
   module PathBuilderSupport

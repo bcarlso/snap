@@ -6,6 +6,10 @@ class SinatraApp < Sinatra::Base
 end
 
 describe "Snap" do
+  after :all do
+    SinatraApp.named_paths = {}
+  end
+  
   it "should extend the route method to support passing in symbols"
   it "should register the DSL extension when included"
   it "should register the helper methods when included"
@@ -27,7 +31,7 @@ describe "Snap" do
             :other_name => '/other_url'
     end
     SinatraApp.named_paths.should == { :name => '/url',
-                                          :other_name => '/other_url' }
+                                       :other_name => '/other_url' }
   end
 
   it "should only allow symbols to be passed in as the first parameter of a path call" do

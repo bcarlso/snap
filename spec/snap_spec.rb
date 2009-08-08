@@ -75,8 +75,3 @@ describe "Snap helper methods for building URLs" do
     @app.new.path_to(:users).with(15, 23).should == '/users/15/23'
   end
 end
-
-describe "Snap auto registration capabilities" do
-  it "should register the DSL extension when included"
-  it "should register the helper methods when included"
-end

@@ -2,9 +2,9 @@ require 'rubygems'
 require 'sinatra'
 require '../lib/sinatra/named_path_support'
 
-path :home, '/index'
-path :add, '/add/:augend/:addend'
-path :result, '/sum/:augend/:addend'
+path :home => '/index'
+paths :add => '/add/:augend/:addend',
+      :result => '/sum/:augend/:addend'
 
 get :home do
   "Hello World!"

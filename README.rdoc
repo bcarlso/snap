@@ -1,6 +1,36 @@
 = Sinatra NAmed Paths (snap)
 
-Enables named paths in Sinatra apps. For documentation, see the wiki.
+Enables named paths in Sinatra apps.
+
+The SNAP extension is a solution for named paths in Sinatra. It also provides helper methods to
+build URLs and perform parameter substitution.
+
+Install the gem:
+
+  sudo gem install snap
+
+Then require it in your application and use away!
+
+  require 'rubygems'
+  require 'sinatra'
+  require 'snap'
+
+  paths :add => '/add/:addend/:augend',
+        :result => '/sum/:addend/:augend'
+
+  get :add do
+    redirect path_to(:result).with(params[:addend], params[:augend])
+  end
+
+  get :result do
+    "#{params[:addend]} + #{params[:augend]} = #{params[:addend].to_i + params[:augend].to_i}"
+  end
+
+Note: Currently the path_to method only supports variable substitution using the format:
+
+  /foo/:param1/bar/:param2
+
+More formats may be supported in the future.
 
 == Copyright
 

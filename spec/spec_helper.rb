@@ -11,6 +11,7 @@ Spec::Runner.configure do |config|
     @app.register Sinatra::PathDefinitionSupport
     @app.helpers Sinatra::PathBuilderSupport
   end
+  
   def verify_route_added(verb, path)
     routes = @app.routes[verb]
     routes.size.should == 1

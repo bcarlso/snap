@@ -17,3 +17,17 @@ end
 get :result do
   "#{params[:augend]} + #{params[:addend]} = #{params[:augend].to_i + params[:addend].to_i}"
 end
+
+
+
+path :hello => '/hi/:name'
+
+get '/index.html' do
+  url = path_to(:hello).with('bcarlso')
+  "<a href='#{url}'>xxx</a>"
+  
+end
+
+get :hello do
+  "Hi #{:name}"
+end

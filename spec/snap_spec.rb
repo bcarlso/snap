@@ -84,4 +84,9 @@ describe "Snap helper methods for building URLs" do
     @app.path :users => %r{/users/(\d+)/(foo|bar)}
     @app.new.path_to(:users).with(15, 'foo').should == '/users/15/foo'
   end
+  
+  it "should support splat syntax" do
+    @app.path :say => '/say/*/to/*'
+    @app.new.path_to(:say).with('hi', 'bob').should == '/say/hi/to/bob'
+  end
 end

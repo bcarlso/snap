@@ -28,19 +28,39 @@ module Sinatra
   module PathBuilderSupport
     def path_to path_name
       pattern = self.class.named_paths[path_name]
-      def pattern.with(*values)
-        if self.instance_of? Regexp
-          url = String.new(self.source)
-          self.source.scan(%r{\(.+?\)}).each_with_index do | placeholder, index |
-              url.sub!(Regexp.new(Regexp.escape(placeholder)), values[index].to_s)
-          end
-        else
-          url = String.new(self)
-          scan(%r{/?(:\S+?)(?:/|$)}).each_with_index do | placeholder, index |
-            url.gsub!(Regexp.new(placeholder[0]), values[index].to_s)
+      pattern.instance_eval do
+        def with(*values)
+          if self.instance_of? Regexp
+            process_regex_replacement(values)
+          else
+            process_string_replacement(values)
           end
         end
-        url
+        
+        def process_regex_replacement(values)
+          url = String.new(self.source)
+          self.source.scan(%r{\(.+?\)}).each_with_index do | placeholder, index |
+            url.sub!(Regexp.new(Regexp.escape(placeholder)), values[index].to_s)
+          end
+          url
+        end
+        
+        def process_string_replacement(values)
+          if %r{/(\*)}.match self
+            replacement_pattern = %r{/(\*)}
+          else
+            replacement_pattern = %r{/?(:\S+?)(?:/|$)}
+          end
+          build_url_from(replacement_pattern, values)
+        end
+        
+        def build_url_from(replacement_pattern, values)
+          url = String.new(self)
+          scan(replacement_pattern).each_with_index do | placeholder, index |
+            url.sub!(Regexp.new(Regexp.escape(placeholder[0])), values[index].to_s)
+          end
+          url
+        end
       end
       pattern
     end

@@ -4,7 +4,9 @@ require '../lib/sinatra/named_path_support'
 
 path :home => '/index'
 paths :add => '/add/:augend/:addend',
-      :result => '/sum/:augend/:addend'
+      :sum => '/sum/:augend/:addend',
+    	:subtract => '/subtract/*/*',
+    	:difference => %r{/difference/(\d+)/(\d+)}
 
 get :home do
   "Hello World!"
@@ -14,11 +16,17 @@ get :add do
   redirect(path_to(:result).with(params[:augend], params[:addend]))
 end
 
-get :result do
+get :sum do
   "#{params[:augend]} + #{params[:addend]} = #{params[:augend].to_i + params[:addend].to_i}"
 end
 
+get :subtract do
+  redirect path_to(:difference).with(params[:splat][0], params[:splat][1])
+end
 
+get :difference do
+  "#{params[:captures][0]} - #{params[:captures][1]} = #{params[:captures][0].to_i - params[:captures][1].to_i}"
+end
 
 path :hello => '/hi/:name'
 

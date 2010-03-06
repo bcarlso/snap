@@ -16,21 +16,25 @@ Then require it in your application and use away!
   require 'snap'
 
   paths :add => '/add/:addend/:augend',
-        :result => '/sum/:addend/:augend'
+        :sum => '/sum/:addend/:augend',
+		:subtract => '/subtract/*/*',
+		:difference => %r{/difference/(\d+)/(\d+)}
 
   get :add do
-    redirect path_to(:result).with(params[:addend], params[:augend])
+    redirect path_to(:sum).with(params[:addend], params[:augend])
   end
 
-  get :result do
+  get :sum do
     "#{params[:addend]} + #{params[:augend]} = #{params[:addend].to_i + params[:augend].to_i}"
   end
 
-Note: Currently the path_to method only supports variable substitution using the format:
+  get :subtract do
+    redirect path_to(:difference).with(params[:splat][0], params[:splat][1])
+  end
 
-  /foo/:param1/bar/:param2
-
-More formats may be supported in the future.
+  get :difference do
+    "#{params[:captures][0]} - #{params[:captures[1]]} = #{params[:captures][0]].to_i - params[:captures][1]].to_i}"
+  end
 
 == Copyright
 

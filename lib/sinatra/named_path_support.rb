@@ -29,11 +29,16 @@ module Sinatra
     def path_to path_name
       pattern = self.class.named_paths[path_name]
       def pattern.with(*values)
-        url = String.new(self)
-        index = 0;
-        scan(%r{/?(:\S+?)(?:/|$)}).each do | placeholder |
-          url.gsub!(Regexp.new(placeholder[0]), values[index].to_s)
-          index += 1
+        if self.instance_of? Regexp
+          url = String.new(self.source)
+          self.source.scan(%r{\(.+?\)}).each_with_index do | placeholder, index |
+              url.sub!(Regexp.new(Regexp.escape(placeholder)), values[index].to_s)
+          end
+        else
+          url = String.new(self)
+          scan(%r{/?(:\S+?)(?:/|$)}).each_with_index do | placeholder, index |
+            url.gsub!(Regexp.new(placeholder[0]), values[index].to_s)
+          end
         end
         url
       end

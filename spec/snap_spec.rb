@@ -74,4 +74,14 @@ describe "Snap helper methods for building URLs" do
     @app.path :users => '/users/:id/:age'
     @app.new.path_to(:users).with(15, 23).should == '/users/15/23'
   end
+  
+  it "should retrieve a path defined as a regex and perform parameter substitution" do
+    @app.path :users => %r{/users/(\d+)}
+    @app.new.path_to(:users).with(15).should == '/users/15'
+  end
+  
+  it "should retrieve a path defined as a regex and perform parameter substitution on consecutive parameters" do
+    @app.path :users => %r{/users/(\d+)/(foo|bar)}
+    @app.new.path_to(:users).with(15, 'foo').should == '/users/15/foo'
+  end
 end

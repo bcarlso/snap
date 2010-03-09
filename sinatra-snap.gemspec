@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{snap}
+  s.name = %q{sinatra-snap}
   s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
@@ -21,12 +21,12 @@ Gem::Specification.new do |s|
      "VERSION",
      "examples/named_route_example.rb",
      "lib/sinatra/named_path_support.rb",
-     "lib/snap.rb",
-     "snap.gemspec",
+     "lib/sinatra-snap.rb",
+     "sinatra-snap.gemspec",
      "spec/snap_spec.rb",
      "spec/spec_helper.rb"
   ]
-  s.homepage = %q{http://github.com/bcarlso/snap}
+  s.homepage = %q{http://github.com/bcarlso/sinatra-snap}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}

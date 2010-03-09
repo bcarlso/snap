@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'sinatra'
-require '../lib/sinatra/named_path_support'
+require 'sinatra-snap'
 
 path :home => '/index'
 paths :add => '/add/:augend/:addend',
@@ -13,7 +13,7 @@ get :home do
 end
 
 get :add do
-  redirect(path_to(:result).with(params[:augend], params[:addend]))
+  redirect(path_to(:sum).with(params[:augend], params[:addend]))
 end
 
 get :sum do
@@ -37,5 +37,5 @@ get '/index.html' do
 end
 
 get :hello do
-  "Hi #{:name}"
+  "Hi #{params[:name]}"
 end

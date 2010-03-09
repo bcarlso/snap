@@ -4,7 +4,7 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "snap"
+    gem.name = "sinatra-snap"
     gem.summary = "Sinatra NAmed Path support"
     gem.email = "bcarlso@gmail.com"
     gem.homepage = "http://github.com/bcarlso/snap"

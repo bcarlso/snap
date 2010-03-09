@@ -25,45 +25,48 @@ module Sinatra
     private :verify_type_of
   end 
 
+  module UrlBuilder
+    def with(*values)
+      if self.instance_of? Regexp
+        process_regex_replacement(values)
+      else
+        process_string_replacement(values)
+      end
+    end
+  
+    def process_regex_replacement(values)
+      url = String.new(self.source)
+      url.scan(%r{\(.+?\)}).each_with_index do | placeholder, index |
+        url.sub!(Regexp.new(Regexp.escape(placeholder)), values[index].to_s)
+      end
+      url
+    end
+  
+    def process_string_replacement(values)
+      if %r{/(\*)}.match self
+        replacement_pattern = %r{/(\*)}
+      else
+        replacement_pattern = %r{/?(:\S+?)(?:/|$)}
+      end
+      build_url_from(replacement_pattern, values)
+    end
+  
+    def build_url_from(replacement_pattern, values)
+      url = String.new(self)
+      scan(replacement_pattern).each_with_index do | placeholder, index |
+        url.sub!(Regexp.new(Regexp.escape(placeholder[0])), values[index].to_s)
+      end
+      url
+    end
+  
+    private :process_regex_replacement, :process_string_replacement, :build_url_from
+  end
+
   module PathBuilderSupport
     def path_to path_name
       pattern = self.class.named_paths[path_name]
       raise ArgumentError.new("Unknown path ':#{path_name.to_s}'") if pattern == nil
-      pattern.instance_eval do
-        def with(*values)
-          if self.instance_of? Regexp
-            process_regex_replacement(values)
-          else
-            process_string_replacement(values)
-          end
-        end
-        
-        def process_regex_replacement(values)
-          url = String.new(self.source)
-          self.source.scan(%r{\(.+?\)}).each_with_index do | placeholder, index |
-            url.sub!(Regexp.new(Regexp.escape(placeholder)), values[index].to_s)
-          end
-          url
-        end
-        
-        def process_string_replacement(values)
-          if %r{/(\*)}.match self
-            replacement_pattern = %r{/(\*)}
-          else
-            replacement_pattern = %r{/?(:\S+?)(?:/|$)}
-          end
-          build_url_from(replacement_pattern, values)
-        end
-        
-        def build_url_from(replacement_pattern, values)
-          url = String.new(self)
-          scan(replacement_pattern).each_with_index do | placeholder, index |
-            url.sub!(Regexp.new(Regexp.escape(placeholder[0])), values[index].to_s)
-          end
-          url
-        end
-      end
-      pattern
+      pattern.extend UrlBuilder
     end
   end
   

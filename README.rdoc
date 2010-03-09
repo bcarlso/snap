@@ -7,13 +7,13 @@ build URLs and perform parameter substitution.
 
 Install the gem:
 
-  sudo gem install snap
+  sudo gem install sinatra-snap
 
 Then require it in your application and use away!
 
   require 'rubygems'
   require 'sinatra'
-  require 'snap'
+  require 'sinatra-snap'
 
   paths :add => '/add/:addend/:augend',
         :sum => '/sum/:addend/:augend',

@@ -89,4 +89,8 @@ describe "Snap helper methods for building URLs" do
     @app.path :say => '/say/*/to/*'
     @app.new.path_to(:say).with('hi', 'bob').should == '/say/hi/to/bob'
   end
+  
+  it "should raise a friendly error when the path doesn't exist" do
+    lambda { @app.new.path_to(:unknown) }.should raise_error(ArgumentError)
+  end
 end

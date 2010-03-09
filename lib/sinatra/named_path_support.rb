@@ -28,6 +28,7 @@ module Sinatra
   module PathBuilderSupport
     def path_to path_name
       pattern = self.class.named_paths[path_name]
+      raise ArgumentError.new("Unknown path ':#{path_name.to_s}'") if pattern == nil
       pattern.instance_eval do
         def with(*values)
           if self.instance_of? Regexp

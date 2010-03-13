@@ -7,7 +7,7 @@ module Sinatra
     end
 
     def paths(paths)
-      paths.keys.each { | k | verify_type_of(k) }
+      paths.keys.each { | key | verify_type_of(key) }
       named_paths.merge!(paths)
     end
 
@@ -26,6 +26,10 @@ module Sinatra
   end 
 
   module UrlBuilder
+    SPLAT = %r{(\*)}
+    NAMED_PARAMETER = %r{/?(:\S+?)(?:/|$)}
+    REGEXP_GROUP = %r{\(.+?\)}
+    
     def with(*values)
       if self.instance_of? Regexp
         process_regex_replacement(values)
@@ -35,31 +39,27 @@ module Sinatra
     end
   
     def process_regex_replacement(values)
-      url = String.new(self.source)
-      url.scan(%r{\(.+?\)}).each_with_index do | placeholder, index |
-        url.sub!(Regexp.new(Regexp.escape(placeholder)), values[index].to_s)
-      end
-      url
+      perform_substitution_using(self.source, REGEXP_GROUP, values)
     end
   
+    def perform_substitution_using(url, replacement_pattern, values) 
+      string = String.new(url)
+      string.scan(replacement_pattern).each_with_index do | placeholder, index |
+        string.sub!(Regexp.new(Regexp.escape(placeholder.first)), values[index].to_s)
+      end
+      string
+    end
+
     def process_string_replacement(values)
-      if %r{/(\*)}.match self
-        replacement_pattern = %r{/(\*)}
-      else
-        replacement_pattern = %r{/?(:\S+?)(?:/|$)}
-      end
-      build_url_from(replacement_pattern, values)
+      replacement_pattern = route_defined_using_splat? ? SPLAT : NAMED_PARAMETER
+      perform_substitution_using(self, replacement_pattern, values)
     end
   
-    def build_url_from(replacement_pattern, values)
-      url = String.new(self)
-      scan(replacement_pattern).each_with_index do | placeholder, index |
-        url.sub!(Regexp.new(Regexp.escape(placeholder[0])), values[index].to_s)
-      end
-      url
+    def route_defined_using_splat?
+      SPLAT.match self
     end
-  
-    private :process_regex_replacement, :process_string_replacement, :build_url_from
+    
+    private :process_regex_replacement, :process_string_replacement, :route_defined_using_splat?
   end
 
   module PathBuilderSupport

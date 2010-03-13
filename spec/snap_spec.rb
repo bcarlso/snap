@@ -90,6 +90,11 @@ describe "Snap helper methods for building URLs" do
     @app.new.path_to(:say).with('hi', 'bob').should == '/say/hi/to/bob'
   end
   
+  it "should still support splat syntax" do
+    @app.path :say => '/download/*.*'
+    @app.new.path_to(:say).with('path/to/file', 'xml').should == '/download/path/to/file.xml'
+  end
+  
   it "should raise a friendly error when the path doesn't exist" do
     lambda { @app.new.path_to(:unknown) }.should raise_error(ArgumentError)
   end

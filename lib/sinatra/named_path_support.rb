@@ -32,13 +32,13 @@ module Sinatra
     
     def with(*values)
       if self.instance_of? Regexp
-        process_regex_replacement(values)
+        replace_regex_with(values)
       else
-        process_string_replacement(values)
+        replace_string_with(values)
       end
     end
   
-    def process_regex_replacement(values)
+    def replace_regex_with(values)
       perform_substitution_using(self.source, REGEXP_GROUP, values)
     end
   
@@ -50,7 +50,7 @@ module Sinatra
       string
     end
 
-    def process_string_replacement(values)
+    def replace_string_with(values)
       replacement_pattern = route_defined_using_splat? ? SPLAT : NAMED_PARAMETER
       perform_substitution_using(self, replacement_pattern, values)
     end
@@ -59,7 +59,7 @@ module Sinatra
       SPLAT.match self
     end
     
-    private :process_regex_replacement, :process_string_replacement, :route_defined_using_splat?
+    private :replace_regex_with, :replace_string_with, :route_defined_using_splat?
   end
 
   module PathBuilderSupport

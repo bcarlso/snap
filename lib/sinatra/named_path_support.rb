@@ -59,7 +59,7 @@ module Sinatra
       SPLAT.match self
     end
     
-    private :replace_regex_with, :replace_string_with, :route_defined_using_splat?
+    private :replace_regex_with, :replace_string_with, :route_defined_using_splat?, :perform_substitution_using
   end
 
   module PathBuilderSupport

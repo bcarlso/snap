@@ -39,11 +39,10 @@ Then require it in your application and use away!
 If your application subclasses <tt>Sinatra::Base</tt>, you have to register SNAP yourself:
 
   class MyApplication < Sinatra::Base
-    register Sinatra::PathDefinitionSupport
-    helpers Sinatra::PathBuilderSupport
-    
+    register Sinatra::Snap
+
     paths :add => '/add/:addend/:augend'
-    
+
     get :add do
       redirect path_to(:sum).with(params[:addend], params[:augend])
     end

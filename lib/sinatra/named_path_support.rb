@@ -1,6 +1,13 @@
 require 'sinatra/base'
 
 module Sinatra
+  module Snap
+    def self.registered(app)
+      app.register PathDefinitionSupport
+      app.helpers PathBuilderSupport
+    end
+  end
+
   module PathDefinitionSupport
     def self.registered(app)
       app.set :named_paths, {}
@@ -70,6 +77,5 @@ module Sinatra
     end
   end
   
-  register PathDefinitionSupport
-  helpers PathBuilderSupport
+  register Snap
 end

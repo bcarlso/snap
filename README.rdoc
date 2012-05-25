@@ -17,8 +17,8 @@ Then require it in your application and use away!
 
   paths :add => '/add/:addend/:augend',
         :sum => '/sum/:addend/:augend',
-	:subtract => '/subtract/*/*',
-	:difference => %r{/difference/(\d+)/(\d+)}
+        :subtract => '/subtract/*/*',
+        :difference => %r{/difference/(\d+)/(\d+)}
 
   get :add do
     redirect path_to(:sum).with(params[:addend], params[:augend])
@@ -34,6 +34,18 @@ Then require it in your application and use away!
 
   get :difference do
     "#{params[:captures][0]} - #{params[:captures[1]]} = #{params[:captures][0]].to_i - params[:captures][1]].to_i}"
+  end
+
+If your application subclasses <tt>Sinatra::Base</tt>, you have to register SNAP yourself:
+
+  class MyApplication < Sinatra::Base
+    register Sinatra::Snap
+
+    paths :add => '/add/:addend/:augend'
+
+    get :add do
+      redirect path_to(:sum).with(params[:addend], params[:augend])
+    end
   end
 
 == Copyright

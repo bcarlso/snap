@@ -1,6 +1,5 @@
-require 'rubygems'
 require 'sinatra'
-require 'sinatra-snap'
+require 'sinatra/snap'
 
 path :home => '/index'
 paths :add => '/add/:augend/:addend',
@@ -10,6 +9,10 @@ paths :add => '/add/:augend/:addend',
 
 get :home do
   "Hello World!"
+end
+
+get :multiply => '/multiply/:one/:two' do |one, two|
+  "#{one.to_i * two.to_i}"
 end
 
 get :add do

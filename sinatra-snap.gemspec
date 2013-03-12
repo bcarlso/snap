@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "sinatra-snap"
-  s.version = ""
+  s.version = "0.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["bcarlso", "yaroslav0rudenok"]
@@ -17,10 +17,13 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     ".document",
+    "Gemfile",
     "LICENSE",
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "examples/snap_example.rb",
+    "lib/sinatra/snap.rb",
     "sinatra-snap.gemspec",
     "spec/snap_spec.rb",
     "spec/spec_helper.rb"

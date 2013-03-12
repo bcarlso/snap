@@ -5,7 +5,7 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "sinatra-snap"
-    gem.summary = "Sinatra Named Path support"
+    gem.summary = "Sinatra NAmed Path support"
     gem.email = "bcarlso@gmail.com"
     gem.homepage = "http://github.com/bcarlso/snap"
     gem.authors = ["bcarlso", "yaroslav0rudenok"]

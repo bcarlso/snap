@@ -13,12 +13,16 @@ Then require it in your application and use away!
 
   require 'rubygems'
   require 'sinatra'
-  require 'sinatra-snap'
+  require 'sinatra/snap'
 
   paths :add => '/add/:addend/:augend',
         :sum => '/sum/:addend/:augend',
         :subtract => '/subtract/*/*',
         :difference => %r{/difference/(\d+)/(\d+)}
+
+  get :multiply => '/multiply/:one/:two' do |one, two|
+    "#{one.to_i * two.to_i}"
+  end
 
   get :add do
     redirect path_to(:sum).with(params[:addend], params[:augend])
